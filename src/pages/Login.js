@@ -24,7 +24,15 @@ export default class Login extends Component {
             console.log(response.data);
             if (response.data.status === "ok") {
                 alert("Login Successful! Welcome " + response.data.email);
-                window.location.href = "./";
+                
+                    const date = new Date();
+                    date.setTime(date.getTime() + (90 * 24 * 60 * 60 * 1000));
+                    const expires = "expires=" + date.toUTCString();
+                    document.cookie = "token" + "=" + response.data.data + ";" + expires + ";path=/";
+                    console.log(response.data.data);
+            
+                
+                window.location.href = "./about";
             }
             else {
                 alert(response.data.status);

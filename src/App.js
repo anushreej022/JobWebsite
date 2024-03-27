@@ -1,4 +1,6 @@
 import './App.css';
+import axios from 'axios';
+import Cookies from 'js-cookie'; // Import js-cookie for cookie management
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ReactLogo from './logo.svg';
 import Home from './pages/Home';
@@ -12,6 +14,27 @@ import Footer from './pages/Footer/Footer';
 import Contact from './pages/Contact';
 import Jobs from './pages/Jobs';
 import CompanyShowcase from './pages/CompanyShowcase';
+import Logout from './pages/Logout'; // Import the Logout component
+
+const LogoutButton = () => {
+  const handleLogout = () => {
+      axios.post('http://localhost:8080/user/logout')
+          .then(response => {
+              // Clear user token from cookies
+              Cookies.remove('token'); // Remove the cookie named 'token'
+              // Redirect or perform any other action after successful logout
+              window.location.href = '/'; // Redirect to login page
+          })
+          .catch(error => {
+              console.error('Logout error:', error);
+              // Handle logout error, if needed
+          });
+  };
+
+  return (
+      <button onClick={handleLogout}>Logout</button>
+  );
+};
 
 function App() {
   return (
@@ -33,6 +56,8 @@ function App() {
               <Nav.Link href="/contact">Contact</Nav.Link>
               <Nav.Link href="/jobs">Jobs</Nav.Link>
               <Nav.Link href="/companies">Company Showcase</Nav.Link>
+              <LogoutButton />
+
             </Nav>
           </Container>
         </Navbar>

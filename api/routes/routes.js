@@ -2,6 +2,7 @@ var Assn9 = require('../models/assn9')
 var bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
+const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 module.exports = function (app) {
     //server routes 
@@ -42,7 +43,18 @@ module.exports = function (app) {
                         bcrypt.compare(req.body.password, user.password, function (err, result) {
                             console.log("Result: " + result);
                             if (result) {
-                                res.json( {status: "ok", email: req.body.email} );
+                                token = jwt.sign(
+                                    { email: em, password: pass, type: "user" },
+                                    "assignment9",
+                                    { expiresIn: "90d" }
+                                  );
+                                  let options = {
+                                    maxAge: 1000 * 60 * 60 * 24 * 90, // would expire after 90 days
+                                    httpOnly: false, // The cookie only accessible by the web server
+                                    //signed: true // Indicates if the cookie should be signed
+                                  };
+                                  res.cookie("token", token, options); 
+                                  res.json( {status: "ok", data: token, email:em});                               
                             }
                             else {
                                 res.json( {status: "Incorrect Password, try again!"} );
@@ -253,6 +265,12 @@ app.get('/company/images', function (req, res) {
     });
 });
 
+// Example route to handle logout
+app.post('/user/logout', (req, res) => {
+    // Clear the token cookie
+    res.clearCookie('token'); 
+    res.status(200).send('Logout successful');
+});
 
 
 }

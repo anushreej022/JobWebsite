@@ -7,27 +7,41 @@ import Row from 'react-bootstrap/Row';
 import JobPosting from '../images/job_posting.jpg';
 
 function Jobs() {
-  var jobsList = [
+  const jobPosts = [
     {
-      name: "Software Developer",
-      company: "Google",
-      description: "As a software developer, you will work on a specific project critical to Google’s needs with opportunities to switch teams and projects as you and our fast-paced business grow and evolve. We need our engineers to be versatile, display leadership qualities and be enthusiastic to take on new problems across the full-stack as we continue to push technology forward. With your technical expertise you will manage project priorities, deadlines, and deliverables. You will design, develop, test, deploy, maintain, and enhance software solutions.",
-      salary: "120k/yr",
-      location: "Boston"
+    id: 1,
+    title: "Full Stack Developer",
+    description: 'Join our dynamic team to work on cutting-edge technologies. Develop and maintain sophisticated web applications for our diverse client base.',
+    lastUpdated: 'Last updated 2 days ago',
+    applyLink: 'https://example.com/apply/full-stack-developer',
     },
     {
-      name: "Software Engineer",
-      company: "Meta",
-      description: "We are the teams who create all of Facebook’s product used by more than 1.5 billion people around the world. Want to build new features and improve existing products like Commerce, Ads, Video, Groups, News Feed, Search, and more? Want to solve unique, large scale, highly complex technical problems? Facebook is seeking experienced full-stack software engineers to join our product teams. You can help build products that help us connect the next billion people, create new features that have billions of interactions per day, and be a part of our team",
-      salary: "140k/yr",
-      location: "California"
+    id: 2,
+    title: 'Digital Marketing Specialist',
+    description: 'Elevate our digital marketing strategies to promote our innovative products. Proficiency in SEO, SEM, and social media marketing is highly valued.',
+    lastUpdated: 'Last updated 1 day ago',
+    applyLink: 'https://example.com/apply/digital-marketing-specialist',
     },
     {
-      name: "Senior Software Engineer",
-      company: "Amazon",
-      description: "A day in the life As a Software Developer within Alexa AI's Web-Based Q&A team, you help us to deliver on our mission to build, operate and scale our highly distributed services and machine learning models. You work with native AWS to enable our large customer base across the world to interact with Alexa devices. You partner with stakeholders and dive deep into an ambiguous problem space to design and deliver innovative solutions with direct customer impact.",
-      salary: "130k/yr",
-      location: "Seattle"
+    id: 3,
+    title: 'UX/UI Designer',
+    description: 'Shape engaging user experiences and create visually captivating designs. Work alongside cross-functional teams to turn ideas into reality.',
+    lastUpdated: 'Last updated 4 hours ago',
+    applyLink: 'https://example.com/apply/ux-ui-designer',
+    },
+    {
+    id: 4,
+    title: 'Data Scientist',
+    description: 'Leverage advanced analytics and machine learning to uncover insights from vast data sets. Proficiency with Python and R is a must.',
+    lastUpdated: 'Last updated 3 days ago',
+    applyLink: 'https://example.com/apply/data-scientist',
+    },
+    {
+    id: 5,
+    title: 'Customer Support Representative',
+    description: 'Deliver unparalleled customer service and support. Exceptional communication skills and a knack for solving problems are key.',
+    lastUpdated: 'Last updated 6 hours ago',
+    applyLink: 'https://example.com/apply/customer-support-representative',
     }
   ];
 
@@ -59,19 +73,19 @@ function Jobs() {
       <br /><br /><br />
       <h2>Recent Jobs:</h2>
       <Row xs={1} md={2} className="g-4" style={cardStyle}>
-        {jobsList.map((jobsList) => (
+        {jobPosts.map((jobPosts) => (
           <Col>
             <Card border="success" style={cardBody}>
               <Card.Img variant="top" src={JobPosting} />
               <Card.Body>
-                <Card.Title>{jobsList.name} - {jobsList.company}</Card.Title>
+                <Card.Title>{jobPosts.title}</Card.Title>
                 <Card.Text>
-                  {jobsList.company}
+                  {jobPosts.lastUpdated}
                 </Card.Text>
                 <Card.Text>
-                  {jobsList.description}
+                  {jobPosts.description}
                 </Card.Text>
-                <Button variant="primary" href='https://www.linkedin.com'>Apply Now</Button>
+                <Button variant="primary" href={jobPosts.applyLink}>Apply Now</Button>
               </Card.Body>
               <Card.Footer>
                 <small className="text-muted">Last updated 3 mins ago</small>

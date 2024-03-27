@@ -1,45 +1,51 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Card, CardMedia, CardContent, Typography, Grid } from '@mui/material';
-
+import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 export default class CompanyShowcase extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            companies: [],
+            imagePaths: [], // Store image paths fetched from the backend
+            error: null // Store any errors that occur during fetching
         };
     }
 
     componentDidMount() {
-        // Fetch company images from the backend server
+        // Fetch image paths from the backend
         axios.get('http://localhost:8080/company/images')
             .then(response => {
-                this.setState({ companies: response.data });
+                this.setState({ imagePaths: response.data });
+                console.log(response.data);
             })
             .catch(error => {
-                console.error('Error fetching companies:', error);
+                console.error('Error fetching image paths:', error);
+                this.setState({ error: 'Error fetching image paths' });
             });
     }
 
     render() {
+        const { imagePaths, error } = this.state;
+
+        if (error) {
+            return <div>Error: {error}</div>;
+        }
+
         return (
             <div>
-                <h2>Company Showcase</h2>
+            <h2>Company Showcase</h2>
                 <Grid container spacing={2}>
-                    {this.state.companies.map((company, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
+                    {imagePaths.map((imagePath, index) => (
+                        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                             <Card>
                                 <CardMedia
                                     component="img"
                                     height="200"
-                                    image={`http://localhost:8080/backendImages/${company}`} // Assuming your image path is correct
-                                    alt={`Company ${index + 1}`}
+                                    src={imagePath.startsWith('public/') ? "../"+imagePath.substring(7) : imagePath}
+                                    alt={imagePath.startsWith('public/') ? "../"+imagePath.substring(7) : imagePath}
+                                    key={index}
                                 />
                                 <CardContent>
-                                    <Typography variant="h6" component="div">
-                                        Company {index + 1}
-                                    </Typography>
-                                    {/* You can add additional information about the company here */}
+                                    <Typography variant="subtitle1">Company {index + 1}</Typography>
                                 </CardContent>
                             </Card>
                         </Grid>

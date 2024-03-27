@@ -187,7 +187,7 @@ module.exports = function (app) {
 // Define storage for the uploaded images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './backendImages');
+        cb(null, './public/backendImages');
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -247,6 +247,7 @@ app.get('/company/images', function (req, res) {
         } else {
             // Extract image paths from the database response
             const imagePaths = images.map(image => image.imagePath);
+            console.log("TWEST", imagePaths)
             res.status(200).json(imagePaths);
         }
     });

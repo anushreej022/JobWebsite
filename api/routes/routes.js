@@ -45,7 +45,7 @@ module.exports = function (app) {
                             if (result) {
                                 token = jwt.sign(
                                     { email: em, password: pass, type: "user" },
-                                    "assignment9",
+                                    "assignment9",//secret key
                                     { expiresIn: "90d" }
                                   );
                                   let options = {
@@ -53,7 +53,8 @@ module.exports = function (app) {
                                     httpOnly: false, // The cookie only accessible by the web server
                                     //signed: true // Indicates if the cookie should be signed
                                   };
-                                  res.cookie("token", token, options); 
+
+                                  //res.cookie("token", token, options); //
                                   res.json( {status: "ok", data: token, email:em});                               
                             }
                             else {
@@ -274,3 +275,4 @@ app.post('/user/logout', (req, res) => {
 
 
 }
+//session:
